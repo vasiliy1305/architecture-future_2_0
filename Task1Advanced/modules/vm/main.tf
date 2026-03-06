@@ -1,17 +1,31 @@
-# пока просто пример
+# VM + disk + network interface for Yandex Cloud
 
-resource "example_vm" "vm" {
-  cpu = var.cpu_cores
-  ram = var.ram_gb
-  network_interface_id  = example_network_interface.nic.id
-  ssh_key = var.ssh_key
-}
-
-resource "example_disk" "disk" {
+resource "yandex_compute_disk" "disk" {
+  name = "vm-disk"
   size = var.disk_size_gb
-  vm_id = example_vm.vm.id
+  type = "network-hdd"
+  zone = "ru-central1-a"
 }
 
-resource "example_network_interface" "nic" {
-  subnet_id = var.subnet_id
+resource "yandex_compute_instance" "vm" {
+  name = "vm-instance"
+  zone = "ru-central1-a"
+
+  resources {
+    cores  = var.cpu_cores
+    memory = var.ram_gb
+  }
+
+  boot_disk {
+    disk_id = yandex_compute_disk.disk.id
+  }
+
+  network_interface {
+    subnet_id = var.subnet_id
+    nat       = true
+  }
+
+  metadata = {
+    ssh-keys = var.ssh_key
+  }
 }

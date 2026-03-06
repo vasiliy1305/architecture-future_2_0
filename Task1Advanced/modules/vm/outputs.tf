@@ -1,14 +1,14 @@
 output "vm_id" {
   description = "Output VM ID"
-  value       = example_vm.vm.id
+  value       = yandex_compute_instance.vm.id
 }
 
 output "vm_ip" {
   description = "Output VM IP"
-  value       = example_vm.vm.ip
+  value       = yandex_compute_instance.vm.network_interface[0].nat_ip_address
 }
 
 output "disk_id" {
   description = "Output disk ID"
-  value       = example_disk.disk.id
+  value       = yandex_compute_disk.disk.id
 }

@@ -1,26 +1,26 @@
-# переменные к ВМ (var - для того чтобы в дальнешем не путать с выходными)
+# variables for VM module
 
 variable "cpu_cores" {
-  description = "Var CPU cores"
+  description = "CPU cores"
   type        = number
 }
 
 variable "ram_gb" {
-  description = "Var RAM in GB"
+  description = "RAM in GB"
   type        = number
 }
 
 variable "disk_size_gb" {
-  description = "Var Disk in GB"
+  description = "Disk size in GB"
   type        = number
 }
 
 variable "subnet_id" {
-  description = "Var Subnet ID"
+  description = "Subnet ID"
   type        = string
 }
 
 variable "ssh_key" {
-  description = "Var SSH public key"
+  description = "SSH public key"
   type        = string
 }
