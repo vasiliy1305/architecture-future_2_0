@@ -1,0 +1,28 @@
+{
+  "quadrants": [
+    {
+      "id": "data-platform",
+      "title": "Data Platform",
+      "description": "",
+      "color": "#a3b18a"
+    },
+    {
+      "id": "data-processing-and-analytics",
+      "title": "Data Processing & Analytics",
+      "description": "",
+      "color": "#588157"
+    },
+    {
+      "id": "integration-and-eventing",
+      "title": "Integration & Eventing",
+      "description": "",
+      "color": "#3f633e"
+    },
+    {
+      "id": "governance-and-self-service",
+      "title": "Governance & Self-Service",
+      "description": "",
+      "color": "#40713f"
+    }
+  ]
+}
