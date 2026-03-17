@@ -1,0 +1,47 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+Person(user, "Customer / Employee", "Uses company digital services")
+
+System_Boundary(system, "Future 2.0") {
+  Container(web, "Web/Mobile Clients", "Web, Mobile", "User interface")
+  Container(api, "API Gateway / BFF", "Gateway", "Single entry point for clients")
+  Container(auth, "Auth Service", "Service", "Authentication and authorization")
+  Container(profile, "Customer/Profile Service", "Service", "Customer data and profiles")
+  Container(product, "Product/Catalog Service", "Service", "Products and business offerings")
+  Container(order, "Order Service", "Service", "Orders and business operations")
+  Container(payment, "Payment Service", "Service", "Payment processing")
+  Container(notification, "Notification Service", "Service", "Email, SMS, push notifications")
+  Container(integration, "Data Integration Layer", "ETL / APIs", "Integration with external and internal data sources")
+  Container(eventbus, "Event Bus", "Kafka / RabbitMQ", "Asynchronous integration")
+  ContainerDb(operationaldb, "Operational DB", "PostgreSQL", "Transactional data")
+  ContainerDb(dwh, "Data Lake / DWH", "Lakehouse / DWH", "Analytics and reporting")
+  Container(legacy, "Legacy Systems", "Monolith / old apps", "Systems to be gradually retired")
+}
+
+Rel(user, web, "Uses")
+Rel(web, api, "Calls")
+Rel(api, auth, "Authenticates via")
+Rel(api, profile, "Reads/writes profile")
+Rel(api, product, "Reads catalog")
+Rel(api, order, "Creates and tracks orders")
+Rel(api, payment, "Initiates payments")
+Rel(api, notification, "Triggers notifications")
+
+Rel(order, operationaldb, "Reads/writes")
+Rel(profile, operationaldb, "Reads/writes")
+Rel(product, operationaldb, "Reads/writes")
+Rel(payment, operationaldb, "Reads/writes")
+
+Rel(order, eventbus, "Publishes events")
+Rel(payment, eventbus, "Publishes events")
+Rel(notification, eventbus, "Consumes events")
+Rel(integration, eventbus, "Publishes/consumes events")
+
+Rel(integration, dwh, "Loads data")
+Rel(legacy, integration, "Exchanges data during transition")
+Rel(legacy, eventbus, "Publishes limited events during migration")
+
+
+
+@enduml
