@@ -8,3 +8,6 @@ ssh_key      = "ssh-rsa ..."
 yc_token  = "YOUR_TOKEN"
 cloud_id  = "YOUR_CLOUD_ID"
 folder_id = "YOUR_FOLDER_ID"
+
+
+// реальные переменные не комитил (сохранил локально)
