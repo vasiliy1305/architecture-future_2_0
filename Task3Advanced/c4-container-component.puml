@@ -12,11 +12,15 @@ System_Boundary(system, "Future 2.0") {
   Container(order, "Order Service", "Service", "Orders and business operations")
   Container(payment, "Payment Service", "Service", "Payment processing")
   Container(notification, "Notification Service", "Service", "Email, SMS, push notifications")
-  Container(integration, "Data Integration Layer", "ETL / APIs", "Integration with external and internal data sources")
+
   Container(eventbus, "Event Bus", "Kafka / RabbitMQ", "Asynchronous integration")
   ContainerDb(operationaldb, "Operational DB", "PostgreSQL", "Transactional data")
-  ContainerDb(dwh, "Data Lake / DWH", "Lakehouse / DWH", "Analytics and reporting")
-  Container(legacy, "Legacy Systems", "Monolith / old apps", "Systems to be gradually retired")
+
+  Container(integration, "Data Integration Layer", "ETL / ELT / CDC / APIs / ACL", "Migration and integration layer: batch and incremental loads, API integrations, validation, transformations, mapping, anti-corruption adapters")
+  ContainerDb(dwh, "Lakehouse Platform", "Object Storage + Query Engine", "Target analytical platform for domain data products, self-service BI, batch and near-real-time analytics")
+  Container(legacy_esb, "Legacy ESB (Apache Camel)", "ESB", "Legacy routing, transformations, validation and synchronous integrations; used as compatibility bridge during migration")
+  ContainerDb(legacy_dwh, "Legacy DWH (SQL Server 2008)", "SQL Server 2008", "Legacy enterprise warehouse in read-only / temporary mode; source of historical data and temporary reporting during migration")
+
 }
 
 Rel(user, web, "Uses")
@@ -38,10 +42,10 @@ Rel(payment, eventbus, "Publishes events")
 Rel(notification, eventbus, "Consumes events")
 Rel(integration, eventbus, "Publishes/consumes events")
 
-Rel(integration, dwh, "Loads data")
-Rel(legacy, integration, "Exchanges data during transition")
-Rel(legacy, eventbus, "Publishes limited events during migration")
 
-
+Rel(integration, dwh, "Loads batch and streaming data products")
+Rel(legacy_esb, integration, "Passes legacy integrations, mappings and validation during transition")
+Rel(legacy_dwh, integration, "Provides historical data and CDC extracts")
+Rel(legacy_esb, eventbus, "Publishes limited domain events during migration")
 
 @enduml
