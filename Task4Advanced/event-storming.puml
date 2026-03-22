@@ -1,0 +1,105 @@
+@startuml
+left to right direction
+skinparam shadowing false
+skinparam packageStyle rectangle
+skinparam defaultTextAlignment center
+
+package "Commands" {
+  rectangle "Register Customer" as C1
+  rectangle "Register Patient" as C2
+  rectangle "Create Financial Contract" as C3
+  rectangle "Complete Payment" as C4
+  rectangle "Complete AI Study" as C5
+  rectangle "Publish Data Mart" as C6
+}
+
+package "Aggregates" {
+  rectangle "Customer" as A1
+  rectangle "Patient" as A2
+  rectangle "Financial Contract" as A3
+  rectangle "Payment" as A4
+  rectangle "AI Study" as A5
+  rectangle "Data Mart" as A6
+}
+
+package "Domain Events" {
+  rectangle "CustomerRegistered" as E1
+  rectangle "PatientRegistered" as E2
+  rectangle "FinancialContractCreated" as E3
+  rectangle "PaymentCompleted" as E4
+  rectangle "AIStudyCompleted" as E5
+  rectangle "DataMartPublished" as E6
+}
+
+package "Policies" {
+  rectangle "Open customer profile in fintech" as P1
+  rectangle "Create medical record after patient registration" as P2
+  rectangle "Start AI workflow after patient registration" as P3
+  rectangle "Update financial analytics after payment" as P4
+  rectangle "Sync legacy bridge during migration" as P5
+  rectangle "Refresh self-service read models" as P6
+}
+
+package "Read Models" {
+  database "Customer 360" as R1
+  database "Patient Flow Dashboard" as R2
+  database "Financial Reporting Mart" as R3
+  database "Self-Service BI Dataset" as R4
+  database "Legacy Reporting Snapshot" as R5
+}
+
+package "Bounded Contexts" {
+  rectangle "Customer Identity" as BC1
+  rectangle "Patient & Clinic Operations" as BC2
+  rectangle "Fintech Services" as BC3
+  rectangle "AI Diagnostics" as BC4
+  rectangle "Data & Self-Service Analytics" as BC5
+}
+
+C1 --> A1
+A1 --> E1
+
+C2 --> A2
+A2 --> E2
+
+C3 --> A3
+A3 --> E3
+
+C4 --> A4
+A4 --> E4
+
+C5 --> A5
+A5 --> E5
+
+C6 --> A6
+A6 --> E6
+
+E1 --> P1
+P1 --> R1
+E1 --> P6
+P6 --> R4
+
+E2 --> P2
+P2 --> R2
+E2 --> P3
+P3 --> R2
+E2 --> P6
+
+E3 --> P6
+
+E4 --> P4
+P4 --> R3
+E4 --> P6
+E4 --> P5
+P5 --> R5
+
+E5 --> P6
+E6 --> P5
+
+BC1 .. A1
+BC2 .. A2
+BC3 .. A3
+BC3 .. A4
+BC4 .. A5
+BC5 .. A6
+@enduml

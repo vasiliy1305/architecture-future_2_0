@@ -1,19 +1,23 @@
 # Event Storming
 
-- Customer Identity publishes `CustomerRegistered` - в системе зарегистрирован новый клиент
-  - subscribers: Fintech Services, Data & Self-Service Analytics
+Визуальная схема Event Storming вынесена в отдельные файлы:
 
-- Patient & Clinic Operations publishes `PatientRegistered` - пациент зарегистрирован в клинике
-  - subscribers: Medical Records, AI Diagnostics, Data & Self-Service Analytics
+- `event-storming.puml` — исходник диаграммы в PlantUML;
+- `event-storming.png` — готовая визуализация для ревью.
 
-- Fintech Services publishes `FinancialContractCreated` - создан финансовый договор
-  - subscribers: Data & Self-Service Analytics, Integration
+В диаграмме отражены:
+- команды;
+- агрегаты;
+- доменные события;
+- политики;
+- read models.
 
-- Fintech Services publishes `PaymentCompleted` - платёж успешно выполнен
-  - subscribers: Data & Self-Service Analytics, Integration, Legacy Core
+Ключевые доменные события:
+- `CustomerRegistered` — регистрация клиента;
+- `PatientRegistered` — регистрация пациента;
+- `FinancialContractCreated` — создание финансового договора;
+- `PaymentCompleted` — успешное выполнение платежа;
+- `AIStudyCompleted` — завершение AI-исследования;
+- `DataMartPublished` — публикация витрины данных.
 
-- AI Diagnostics publishes `AIStudyCompleted` - ИИ-анализ завершён и результат готов
-  - subscribers: Medical Records, Data & Self-Service Analytics
-
-- Data & Self-Service Analytics publishes `DataMartPublished` - опубликована новая витрина данных
-  - subscribers: Integration, Legacy Core
+Диаграмма показывает, как bounded contexts обмениваются событиями и как на их основе строятся аналитические read models и переходные legacy-интеграции.
